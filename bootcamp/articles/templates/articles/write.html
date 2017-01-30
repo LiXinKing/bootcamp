@@ -18,7 +18,8 @@
       <div class="form-group{% if field.errors %} has-error{% endif %}">
         <label for="{{ field.label }}" class="control-label">{{ field.label }}</label>
         {% if field.label == 'Content' %}
-          {% include 'markdown_editor.html' with textarea='id_content' %}
+          <br />
+          {{ form.media }}
         {% endif %}
         {{ field }}
         {% if field.help_text %}

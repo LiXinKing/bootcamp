@@ -7,8 +7,8 @@ from django.db import models
 from django.template.defaultfilters import slugify
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
-
-import markdown
+from  DjangoUeditor.forms import UEditorField as formUEditorField
+from DjangoUeditor.models import UEditorField
 
 
 @python_2_unicode_compatible
@@ -22,7 +22,14 @@ class Article(models.Model):
 
     title = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, null=True, blank=True)
-    content = models.TextField(max_length=4000)
+    content = UEditorField('Content',
+                           height = 300,
+                           width = 1000,
+                           default = '',
+                           blank = True,
+                           imagePath = "upload/article/images/",
+                           filePath = 'upload/article/files/',
+                           upload_settings = {"imageMaxSize": 1204000})
     status = models.CharField(max_length=1, choices=STATUS, default=DRAFT)
     create_user = models.ForeignKey(User)
     create_date = models.DateTimeField(auto_now_add=True)
@@ -49,7 +56,10 @@ class Article(models.Model):
         super(Article, self).save(*args, **kwargs)
 
     def get_content_as_markdown(self):
-        return markdown.markdown(self.content, safe_mode='escape')
+        return formUEditorField('Content', initial=self.content)
+
+    def get_plain_content(self):
+        return self.content
 
     @staticmethod
     def get_published():
@@ -74,7 +84,7 @@ class Article(models.Model):
             return self.content
 
     def get_summary_as_markdown(self):
-        return markdown.markdown(self.get_summary(), safe_mode='escape')
+        return self.get_summary()
 
     def get_comments(self):
         return ArticleComment.objects.filter(article=self)

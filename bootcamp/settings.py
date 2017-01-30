@@ -38,6 +38,8 @@ INSTALLED_APPS = (
     'bootcamp.messenger',
     'bootcamp.questions',
     'bootcamp.search',
+
+    'DjangoUeditor'
 )
 
 MIDDLEWARE_CLASSES = (

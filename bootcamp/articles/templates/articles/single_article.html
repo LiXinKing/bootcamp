@@ -1,4 +1,7 @@
 {% load staticfiles i18n %}<article>
+  <a href="{% url 'edit_article' article.pk %}" class="btn btn-primary pull-right" style="">
+    <span class="glyphicon glyphicon-pencil"></span> {% trans 'Editor Article' %}
+  </a>
   <h2><a href="{% url 'article' article.slug %}">{{ article.title }}</a></h2>
   <div class="info">
     <span class="date">

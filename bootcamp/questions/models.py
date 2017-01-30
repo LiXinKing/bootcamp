@@ -6,13 +6,22 @@ from django.utils.encoding import python_2_unicode_compatible
 
 import markdown
 from bootcamp.activities.models import Activity
+from  DjangoUeditor.forms import UEditorField as formUEditorField
+from DjangoUeditor.models import UEditorField
 
 
 @python_2_unicode_compatible
 class Question(models.Model):
     user = models.ForeignKey(User)
     title = models.CharField(max_length=255)
-    description = models.TextField(max_length=2000)
+    description = UEditorField('description',
+                           height = 400,
+                           width = 1000,
+                           default = '',
+                           blank = True,
+                           imagePath = "upload/question/images/",
+                           filePath = 'upload/question/files/',
+                           upload_settings = {"imageMaxSize": 1204000})
     create_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(auto_now_add=True)
     favorites = models.IntegerField(default=0)
@@ -44,7 +53,7 @@ class Question(models.Model):
         return Answer.objects.get(question=self, is_accepted=True)
 
     def get_description_as_markdown(self):
-        return markdown.markdown(self.description, safe_mode='escape')
+        return self.description
 
     def get_description_preview(self):
         if len(self.description) > 255:
@@ -53,8 +62,7 @@ class Question(models.Model):
             return self.description
 
     def get_description_preview_as_markdown(self):
-        return markdown.markdown(self.get_description_preview(),
-                                 safe_mode='escape')
+        return self.get_description_preview()
 
     def calculate_favorites(self):
         favorites = Activity.objects.filter(activity_type=Activity.FAVORITE,
@@ -136,7 +144,7 @@ class Answer(models.Model):
         return voters
 
     def get_description_as_markdown(self):
-        return markdown.markdown(self.description, safe_mode='escape')
+        return self.description
 
 
 @python_2_unicode_compatible
