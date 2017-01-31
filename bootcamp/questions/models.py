@@ -144,7 +144,7 @@ class Answer(models.Model):
         return voters
 
     def get_description_as_markdown(self):
-        return self.description
+        return markdown.markdown(self.description, safe_mode='escape')
 
 
 @python_2_unicode_compatible
