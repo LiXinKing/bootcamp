@@ -1,5 +1,7 @@
 body {
-  background-color: #006389;
+  background-color: white;
+  background-image: url(../picture/cover.jpg);
+  background-repeat:no-repeat;  
 }
 
 .cover {
@@ -10,17 +12,12 @@ body {
   margin-top: -200px;
   top: 50%;
   left: 50%;
-}
+  
+  filter:alpha(opacity=100);  
+  -moz-opacity:1.0;  
+  -khtml-opacity: 1.0;  
+  opacity: 1.0;   
 
-.logo {
-  margin: 0;
-  font-size: 3em;
-  font-weight: 200;
-  font-family: "Audiowide", cursive;
-  color: #92c35e;
-  text-align: center;
-  text-shadow: 1px 1px 0 #333333;
-  line-height: 70px;
 }
 
 .login {
